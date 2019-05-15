@@ -2,11 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>hello</title>
     <link rel="stylesheet" href="/static/css/hello.css">
 </head>
 <body>
-    <h1>hello h1</h1>
-    <h2>hello h2</h2>
+    <h1>hello {{name}}</h1>
+    <div>hello {{name}}</div>
+
+    <br/>
+
+    <a href="/getphone/">通过url获取手机号码</a> <br/>
+    <a href="{{url_for('get_phone')}}">通过url绑定的方法名获取手机号码</a>
 </body>
 </html>
