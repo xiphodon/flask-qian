@@ -1,124 +1,54 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# @Time    : 2019/5/15 16:22
+# @Time    : 2019/5/16 9:55
 # @Author  : GuoChang
 # @Site    : https://github.com/xiphodon
 # @File    : manager.py
 # @Software: PyCharm
-
-from flask import Flask, render_template, url_for, request, make_response, Response, redirect, abort, jsonify
+import redis as redis
+from flask import Flask
 from flask_script import Manager
+import sys
+import os
+
+from flask_session import Session
+
+base_path = os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
+# base_path = os.path.abspath(r'.')
+if base_path not in sys.path:
+    sys.path.append(base_path)
 
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = 'thisissecretkey'
+
+app.config['SESSION_TYPE'] = 'redis'  # session类型为redis
+# app.config['SESSION_PERMANENT'] = False  # 如果设置为True，则关闭浏览器session就失效。
+# app.config['SESSION_USE_SIGNER'] = False  # 是否对发送到浏览器上session的cookie值进行加密
+# app.config['SESSION_KEY_PREFIX'] = 'session:'  # 保存到session中的值的前缀
+# app.config['SESSION_REDIS'] = redis.Redis(host='127.0.0.1', port='6379', password='123123')  # 用于连接redis的配置
+Session(app)
+
 manager = Manager(app=app)
 
 
-@app.route('/index/')
-def index():
+def register_bp():
     """
-    无参路由
+    注册蓝图
     :return:
     """
-    return 'hello index'
+    # print(sys.path)
+    from qf.module1.views_1 import bp as bp_1
+    app.register_blueprint(blueprint=bp_1)
+
+    from qf.module1.views_2 import bp as bp_2
+    app.register_blueprint(blueprint=bp_2)
+
+    from qf.module1.user import bp as bp_3
+    app.register_blueprint(blueprint=bp_3)
 
 
-@app.route('/hello/<string:name>/', methods=['GET'])
-def hello(name):
-    """
-    带参路由
-    int/string/float/any ...
-    :param name:
-    :return:
-    """
-    return render_template('hello.html', name=name)
-
-
-@app.route('/any/<any(i, you, he, "123"):name>/', methods=['GET', 'POST'])
-def hello_any(name):
-    """
-    带参路由 any
-    仅允许/any/i/ /any/you/ /any/he/ /any/123/ url
-    :param name:
-    :return:
-    """
-    return render_template('hello.html', name=name)
-
-
-@app.route('/url/')
-def get_url():
-    """
-    反向解析
-    :return:
-    """
-    url = url_for('hello_any', name='you')  # /any/you/
-    return url
-
-
-@app.route('/getphone/')
-def get_phone():
-    """
-    无参路由
-    获取手机号码
-    :return:
-    """
-    return '139-0000-1111'
-
-
-@app.route('/req_resp/')
-def req_resp():
-    """
-    request & response
-    :return:
-    """
-    #  http://127.0.0.1:9000/req_resp/?user=nihao&age=10
-    print('request.path= ', request.path)
-    print('request.headers= ', request.headers)
-    print('request.json= ', request.json)
-    print('request.data= ', request.data)
-    print('request.args= ', request.args)
-    print('request.method= ', request.method)
-    print('request.values= ', request.values)
-    print('request.url= ', request.url)
-    print('request.host= ', request.host)
-    print('request.charset= ', request.charset)
-    print('request.range= ', request.range)
-    print('request.blueprint= ', request.blueprint)
-    print('request.base_url= ', request.base_url)
-
-    # return Response(render_template('hello.html', name='tom'), status=200, content_type='text/html')
-    return make_response(render_template('hello.html', name='nike'), 200)
-
-
-@app.route('/redirect/')
-def rdct():
-    """
-    重定向
-    :return:
-    """
-    return redirect(url_for('get_phone'))
-
-
-@app.route('/abort/')
-def abort_resp():
-    """
-    直接中断返回
-    :return:
-    """
-    # abort(404)
-    abort(Response('Hello abort'))
-
-
-@app.route('/json/')
-def json_resp():
-    """
-    json响应
-    :return:
-    """
-    # r = jsonify({'name': 'tom_dict', 'age': 20})
-    r = jsonify(name='tom_kwages', age=31)
-    return r
-
+register_bp()
 
 if __name__ == '__main__':
-    # app.run(debug=True, host='0.0.0.0', port=5000)
-    manager.run()  # python manager.py runserver -d -r -h 0.0.0.0 -p 5000
+    manager.run()

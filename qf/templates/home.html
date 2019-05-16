@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎</title>
+</head>
+<body>
+
+    <h1>欢迎访问{% if username %}{{ username }}{% endif %}</h1>
+
+    {% if username %}
+
+    <a href="{{ url_for('user.logout') }}">退出登录</a>
+
+    {% else %}
+
+    <a href="{{ url_for('user.get_login_page') }}">登录</a>
+
+    {% endif %}
+</body>
+</html>
