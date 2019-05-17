@@ -5,9 +5,17 @@
     <title>登录</title>
 </head>
 <body>
+    {# flash 消息显示 #}
+    {% for msg in get_flashed_messages() %}
+        <p>{{ msg }}</p>
+    {% endfor %}
+
     <form action="{{ url_for('user.login') }}" method="post">
-        <span>用户名</span>
+        <span>用户名：</span>
         <input name="username" type="text" placeholder="请输入用户名"/>
+        <br>
+        <span>密码：</span>
+        <input name="password" type="password" placeholder="请输入密码">
         <br>
         <button type="submit">登录</button>
     </form>

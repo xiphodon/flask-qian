@@ -7,11 +7,12 @@
 # @Software: PyCharm
 import redis as redis
 from flask import Flask
+from flask_bootstrap import Bootstrap
 from flask_script import Manager
-import sys
-import os
-
 from flask_session import Session
+import os
+import sys
+
 
 base_path = os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
 # base_path = os.path.abspath(r'.')
@@ -27,9 +28,12 @@ app.config['SESSION_TYPE'] = 'redis'  # session类型为redis
 # app.config['SESSION_USE_SIGNER'] = False  # 是否对发送到浏览器上session的cookie值进行加密
 # app.config['SESSION_KEY_PREFIX'] = 'session:'  # 保存到session中的值的前缀
 # app.config['SESSION_REDIS'] = redis.Redis(host='127.0.0.1', port='6379', password='123123')  # 用于连接redis的配置
-Session(app)
+
+Session(app=app)
 
 manager = Manager(app=app)
+
+bootstrap = Bootstrap(app=app)
 
 
 def register_bp():

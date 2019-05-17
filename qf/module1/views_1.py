@@ -26,3 +26,13 @@ def index_b2():
     numbers = range(1, 4)
     html_str = '<h1>html str</h1>'
     return render_template('index_b2.html', names=names, numbers=numbers, html_str=html_str)
+
+
+@bp.route('/hi_bs/')
+def hi_bs():
+    """
+    引入 bootstrap-flask 插件
+    使用 bootstrap 模板
+    :return:
+    """
+    return render_template('hi_bootstrap.html')

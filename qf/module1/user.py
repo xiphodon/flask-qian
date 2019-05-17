@@ -5,7 +5,7 @@
 # @Site    : https://github.com/xiphodon
 # @File    : user.py
 # @Software: PyCharm
-from flask import Blueprint, render_template, request, redirect, url_for, make_response, session
+from flask import Blueprint, render_template, request, redirect, url_for, make_response, session, flash
 
 bp = Blueprint('user', __name__, url_prefix=None)
 
@@ -38,13 +38,21 @@ def login():
     :return:
     """
     username = request.form.get('username')
+    password = request.form.get('password')
 
-    resp = make_response(f'登录成功{username}')
+    if username == 'admin' and password == '123456':
+        flash(f'登录成功{username}')
 
-    # resp.set_cookie('username', username)  # cookies设置指定key
-    session['username'] = username  # session设置指定key
+        resp = make_response(f'登录成功{username}')
 
-    return resp
+        # resp.set_cookie('username', username)  # cookies设置指定key
+        session['username'] = username  # session设置指定key
+
+        return resp
+
+    else:
+        flash('用户名或密码错误')
+        return redirect(url_for('user.get_login_page'))
 
 
 @bp.route('/logout/')
