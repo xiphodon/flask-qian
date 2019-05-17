@@ -1,0 +1,15 @@
+{% extends 'index_b.html' %}
+
+{% block extCSS %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/hello2.css') }}"/>
+{% endblock %}
+
+{% block content %}
+    {{ super() }}
+    <h1>from index_b2</h1>
+    <h3>from index_b2</h3>
+
+    {# include & 宏定义 & for & if & 过滤器#}
+    {% include 'content_ul.html' %}
+{% endblock %}

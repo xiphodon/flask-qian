@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block extCSS %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/hello.css') }}"/>
+{% endblock %}
+
+{% block content %}
+    <h1>from index_b</h1>
+{% endblock %}

@@ -1,0 +1,49 @@
+<div>
+    <ul>
+        {% for name in names %}
+            {% if loop.first %}
+                <li style="color: #734486;">{{ name|upper }}</li> {# 管道过滤器 #}
+            {% elif loop.last %}
+                <li style="color: #5eff72;">{{ name|reverse }}</li> {# 管道过滤器 #}
+            {% else %}
+                <li style="color: #8fc1ff;">{{ name|lower }}</li> {# 管道过滤器 #}
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    {#无参宏定义与调用#}
+    {% macro hello() %}
+        <h2>from macro</h2>
+    {% endmacro %}
+
+    {% for i in range(5) %}
+        {{ hello() }}
+    {% endfor %}
+
+    {# 带参宏定义与调用 #}
+    {% macro say_hello(arg1, arg2) %}
+        <h4>hello {{ arg1 }} , {{ arg2 }} ~</h4>
+    {% endmacro %}
+
+    {% for i in names %}
+        {{ say_hello(i|upper|reverse, loop.index) }} {# 管道过滤器 #}
+    {% endfor %}
+
+
+    {# 导入宏定义包及宏方法 #}
+    {% from 'macro_utils.html' import print_add %}
+    {% for i in numbers %}
+        {% for j in numbers %}
+            {{ print_add(i, j) }}
+        {% endfor %}
+    {% endfor %}
+
+    <p>{{ html_str|striptags }}</p>
+    <p>{{ html_str|safe }}</p>
+
+    <p>{{ username|default('jake') }}</p>
+
+    <p>{{ html_str|safe|reverse }}</p> {# 渲染最后执行 #}
+    <p>{{ html_str|first }}</p>
+    <p>{{ html_str|last }}</p>
+</div>
