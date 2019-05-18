@@ -10,6 +10,7 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_script import Manager
 from flask_session import Session
+from flask_sqlalchemy import SQLAlchemy
 import os
 import sys
 
@@ -23,11 +24,19 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'thisissecretkey'
 
+# 数据库
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost:3306/flask_db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 app.config['SESSION_TYPE'] = 'redis'  # session类型为redis
 # app.config['SESSION_PERMANENT'] = False  # 如果设置为True，则关闭浏览器session就失效。
 # app.config['SESSION_USE_SIGNER'] = False  # 是否对发送到浏览器上session的cookie值进行加密
 # app.config['SESSION_KEY_PREFIX'] = 'session:'  # 保存到session中的值的前缀
 # app.config['SESSION_REDIS'] = redis.Redis(host='127.0.0.1', port='6379', password='123123')  # 用于连接redis的配置
+
+from qf.module1.models import init_db
+init_db(app=app)
 
 Session(app=app)
 
