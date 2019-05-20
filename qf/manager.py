@@ -13,10 +13,13 @@ from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 import os
 import sys
+from pathlib import Path
 
-
-base_path = os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
 # base_path = os.path.abspath(r'.')
+# base_path = os.path.split(os.path.split(os.path.abspath(__file__))[0])[0]
+base_path = str(Path(__file__).parent.parent.resolve())
+# print(base_path)
+
 if base_path not in sys.path:
     sys.path.append(base_path)
 
@@ -35,7 +38,7 @@ app.config['SESSION_TYPE'] = 'redis'  # session类型为redis
 # app.config['SESSION_KEY_PREFIX'] = 'session:'  # 保存到session中的值的前缀
 # app.config['SESSION_REDIS'] = redis.Redis(host='127.0.0.1', port='6379', password='123123')  # 用于连接redis的配置
 
-from qf.module1.models import init_db
+from qf.App.models import init_db
 init_db(app=app)
 
 Session(app=app)
@@ -51,13 +54,13 @@ def register_bp():
     :return:
     """
     # print(sys.path)
-    from qf.module1.views_1 import bp as bp_1
+    from qf.App.views_1 import bp as bp_1
     app.register_blueprint(blueprint=bp_1)
 
-    from qf.module1.views_2 import bp as bp_2
+    from qf.App.views_2 import bp as bp_2
     app.register_blueprint(blueprint=bp_2)
 
-    from qf.module1.user import bp as bp_3
+    from qf.App.user import bp as bp_3
     app.register_blueprint(blueprint=bp_3)
 
 

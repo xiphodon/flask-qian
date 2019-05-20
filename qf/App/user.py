@@ -7,7 +7,7 @@
 # @Software: PyCharm
 from flask import Blueprint, render_template, request, redirect, url_for, make_response, session, flash
 
-from qf.module1.models import User, db
+from qf.App.models import User, db
 
 bp = Blueprint('user', __name__, url_prefix=None)
 
