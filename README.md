@@ -59,3 +59,6 @@ manager 添加新命令
 
 ## Bootstrap-Flask==1.0.10:
 ###flask bootstrap 插件
+
+## Flask-DebugToolbar==0.10.1:
+###flask 调试工具条

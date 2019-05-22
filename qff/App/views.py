@@ -56,7 +56,8 @@ def get_users():
     per_page = request.args.get('per_page', 5, type=int)
 
     # 分页器
-    pagination = db.session.query(User).paginate(page=page, per_page=per_page)
+    # pagination = db.session.query(User).paginate(page=page, per_page=per_page)
+    pagination = User.query.paginate(page=page, per_page=per_page)
     # users = pagination.items  # 直接获取分页数据集
 
     # 手动分页
