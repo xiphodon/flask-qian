@@ -10,11 +10,13 @@
 第三方库模块
 """
 from flask import Flask
+from flask_bootstrap import Bootstrap
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 migrate = Migrate()
+bootstrap = Bootstrap()
 
 
 def init_ext(*, app: Flask):
@@ -24,4 +26,4 @@ def init_ext(*, app: Flask):
     """
     db.init_app(app=app)
     migrate.init_app(app=app, db=db)
-
+    bootstrap.init_app(app=app)
