@@ -12,7 +12,7 @@ import random
 from sqlalchemy import and_, or_, not_
 
 from qff.App.ext import db
-from qff.App.models import User
+from qff.App.models import User, Product
 
 bp = Blueprint('first_bp', __name__)
 
@@ -37,12 +37,30 @@ def add_user():
     添加用户
     :return:
     """
-    user = User(f'Tom{random.randint(10, 100)}', '123123')
+    random_int = random.randint(100, 200)
+    user = User(f'Tom{random_int}', f'123{random_int}')
 
     db.session.add(user)
     db.session.commit()
 
-    return 'add success'
+    return 'add user success'
+
+
+@bp.route('/addproduct/')
+def add_product():
+    """
+    添加产品
+    :return:
+    """
+    user = User.query.order_by(User.id.desc()).first()
+
+    random_int = random.randint(100, 300)
+    product = Product(name=f'电脑X{random_int}', price=f'{random_int * 100}', user_id=user.id)
+
+    db.session.add(product)
+    db.session.commit()
+
+    return 'add product success'
 
 
 @bp.route('/getusers/')
@@ -110,3 +128,38 @@ def get_user():
     u = db.session.query(User).order_by(User.id.desc()).first()
 
     return f'{u.id}\t{u.username}\t{u.password}'
+
+
+@bp.route('/getuserbyproduct/')
+def get_user_by_product():
+    """
+    通过产品获取所属用户
+    :return:
+    """
+    # 获取产品列表最新一条数据所属的用户
+    product = Product.query.order_by(Product.id.desc()).first()
+
+    # User模型中加入与Product级联关系，无需手动关联查询user，可直接获取（懒加载，自动查询）
+    # user = User.query.get(product.user_id)
+    user = product.user
+
+    print(product.id, product.name, product.price, product.user_id, sep='\t')
+    print(user.id, user.username, user.password, sep='\t')
+
+    return 'get user by product success'
+
+
+@bp.route('/getproductsbyuser/')
+def get_products_by_user():
+    """
+    通过用户获取所拥有的产品
+    :return:
+    """
+    # 获取最新用户所拥有的产品
+    user = User.query.order_by(User.id.desc()).first()
+
+    # User模型中加入与Product级联关系，无需手动关联查询products，可直接获取（懒加载，自动查询）
+    # products = Product.query.filter(Product.user_id == user.id).all()
+    products = user.products
+
+    return render_template('products.html', products=products)

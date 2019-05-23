@@ -62,3 +62,8 @@ manager 添加新命令
 
 ## Flask-DebugToolbar==0.10.1:
 ###flask 调试工具条
+
+## mysql-connector-python==8.0.16:
+###mysql 驱动
+mysqlconnector替换pymysql，连接mysql 对中文支持更好
+

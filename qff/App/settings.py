@@ -47,7 +47,8 @@ class DevelopConfig(BaseConfig):
     DEBUG = True
     DATABASE = {
         "ENGINE": "mysql",
-        "DRIVER": "pymysql",
+        # "DRIVER": "pymysql",
+        "DRIVER": "mysqlconnector",
         "USER": "root",
         "PASSWORD": "123456",
         "HOST": "localhost",
@@ -64,7 +65,8 @@ class TestingConfig(BaseConfig):
     TESTING = True
     DATABASE = {
         "ENGINE": "mysql",
-        "DRIVER": "pymysql",
+        # "DRIVER": "pymysql",
+        "DRIVER": "mysqlconnector",
         "USER": "root",
         "PASSWORD": "123456",
         "HOST": "localhost",
@@ -80,7 +82,8 @@ class ProductConfig(BaseConfig):
     """
     DATABASE = {
         "ENGINE": "mysql",
-        "DRIVER": "pymysql",
+        # "DRIVER": "pymysql",
+        "DRIVER": "mysqlconnector",
         "USER": "root",
         "PASSWORD": "123456",
         "HOST": "localhost",
