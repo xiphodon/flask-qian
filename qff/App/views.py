@@ -12,7 +12,7 @@ import random
 from sqlalchemy import and_, or_, not_
 
 from qff.App.ext import db
-from qff.App.models import User, Product
+from qff.App.models import User, Product, Customer, CompanyShop
 
 bp = Blueprint('first_bp', __name__)
 
@@ -177,6 +177,68 @@ def get_config_list():
 
     print(g.get('temp'))
     return render_template('config_list.html')
+
+
+@bp.route('/getcustomerfocusshop/')
+def get_customer_focus_shop():
+    """
+    获取用户关注的商铺
+    :return:
+    """
+    customer = Customer.query.get(1)
+    focus_shops_list = customer.focus_shops
+    return render_template('customer_focus_shops.html', shops=focus_shops_list)
+
+
+@bp.route('/getshopfollowers/')
+def get_shop_followers():
+    """
+    获取商铺的关注者
+    :return:
+    """
+    shop = CompanyShop.query.get(4)
+    followers_list = shop.followers
+    return render_template('shop_followers.html', followers=followers_list)
+
+
+@bp.route('/addfocusshop/')
+def add_focus_shop():
+    """
+    添加新的关注店铺
+    :return:
+    """
+    # cstm_1 = Customer(wx_openid='0000000004', phone_number='13812340004')
+    # cstm_2 = Customer(wx_openid='0000000005', phone_number='13812340005')
+    # cstm_3 = Customer.query.get(1)
+    #
+    # shop_1 = CompanyShop(shop_name='商铺名称4', company_name='商铺公司4')
+    # shop_2 = CompanyShop(shop_name='商铺名称5', company_name='商铺公司5')
+    # shop_3 = CompanyShop.query.get(2)
+
+    cstm_1 = Customer.query.get(1)
+    cstm_2 = Customer.query.get(4)
+    cstm_3 = Customer.query.get(5)
+
+    shop_1 = CompanyShop.query.get(2)
+    shop_2 = CompanyShop.query.get(4)
+    shop_3 = CompanyShop.query.get(5)
+
+    cstm_1.focus_shops.append(shop_1)
+    cstm_1.focus_shops.append(shop_2)
+    cstm_1.focus_shops.append(shop_3)
+
+    cstm_2.focus_shops.append(shop_1)
+    cstm_2.focus_shops.append(shop_3)
+
+    cstm_3.focus_shops.append(shop_1)
+
+    db.session.add(cstm_1)
+    db.session.add(cstm_2)
+    db.session.add(cstm_3)
+
+    db.session.commit()
+
+    return '添加新的关注店铺成功'
 
 
 @bp.before_app_first_request

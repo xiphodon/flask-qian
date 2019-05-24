@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>shop followers</title>
+</head>
+<body>
+    <ul>
+        {% for follower in followers %}
+            <li>{{ follower.id }} &nbsp; {{ follower.wx_openid }} &nbsp; {{ follower.phone_number }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
