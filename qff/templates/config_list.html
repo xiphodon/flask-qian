@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>config_list</title>
+</head>
+<body>
+    <ul>
+        {% for key in config %}
+            <li>{{ key }} = {{ config.get(key, None) }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -5,8 +5,8 @@
 # @Site    : https://github.com/xiphodon
 # @File    : views.py
 # @Software: PyCharm
-
-from flask import Blueprint, Flask, request, render_template
+import sys
+from flask import Blueprint, Flask, request, render_template, current_app, abort, g
 import random
 
 from sqlalchemy import and_, or_, not_
@@ -163,3 +163,83 @@ def get_products_by_user():
     products = user.products
 
     return render_template('products.html', products=products)
+
+
+@bp.route('/getconfiglist/')
+def get_config_list():
+    """
+    获取全局属性config
+    :return:
+    """
+    # _config = current_app.config
+    # print(type(_config))
+    # print(_config)
+
+    print(g.get('temp'))
+    return render_template('config_list.html')
+
+
+@bp.before_app_first_request
+def before_app_first_request_func():
+    """
+    应用第一次请求前执行
+    :return:
+    """
+    print('before_app_first_request')
+
+
+@bp.before_app_request
+def before_app_request_func():
+    """
+    应用请求前执行
+    :return:
+    """
+    print('before_app_request')
+
+
+@bp.before_request
+def before_request_func():
+    """
+    蓝图请求前执行
+    :return:
+    """
+    g.temp = '-- data from g --'
+    print('before_request')
+
+
+@bp.after_request
+def after_request_func(response):
+    """
+    蓝图请求后执行（如果请求没有异常）
+    :return:
+    """
+    print('after_request')
+    return response
+
+
+@bp.after_app_request
+def after_app_request(response):
+    """
+    应用请求后执行（如果请求没有异常）
+    :return:
+    """
+    print('after_app_request')
+    return response
+
+
+@bp.teardown_request
+def teardown_request_func(e):
+    """
+    蓝图请求后执行（即是请求没有异常）
+    :return:
+    """
+    print('teardown_request', e)
+
+
+@bp.teardown_app_request
+def teardown_app_request_func(e):
+    """
+    应用请求后执行（即是请求没有异常）
+    :return:
+    """
+    print('teardown_app_request', e)
