@@ -8,8 +8,8 @@
 from flask import Blueprint, Flask, request, render_template, current_app, abort, g, make_response, session, Response
 import random
 
-from qff.App.ext import db
-from qff.App.models import User, Product, Customer, CompanyShop
+from qff.app.ext import db, cache
+from qff.app.models import User, Product, Customer, CompanyShop
 
 bp = Blueprint('first_bp', __name__)
 
@@ -49,6 +49,7 @@ def add_product():
     添加产品
     :return:
     """
+
     user = User.query.order_by(User.id.desc()).first()
 
     random_int = random.randint(100, 300)
@@ -62,11 +63,17 @@ def add_product():
 
 @bp.route('/getusers/')
 @bp.route('/userlist/')
+@cache.cached(timeout=30)  # flask-cache redis 缓存
 def get_users():
     """
     获取用户列表
     :return:
     """
+    print('数据来自数据库')
+
+    cache.set('user_name', 'lili')
+    print(cache.get('user_name'))
+
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 5, type=int)
 

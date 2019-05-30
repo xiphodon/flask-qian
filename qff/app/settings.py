@@ -39,6 +39,14 @@ class BaseConfig:
     SQLALCHEMY_DATABASE_URI = None
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # flask-cache:redis
+    CACHE_DEFAULT_TIMEOUT = 60
+    CACHE_KEY_PREFIX = 'qff/'
+    CACHE_REDIS_HOST = '127.0.0.1'
+    CACHE_REDIS_PORT = '6379'
+    # CACHE_REDIS_PASSWORD = '123123'
+    # CACHE_REDIS_DB = ''
+
 
 class DevelopConfig(BaseConfig):
     """

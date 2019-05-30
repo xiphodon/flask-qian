@@ -11,6 +11,7 @@
 """
 from flask import Flask
 from flask_bootstrap import Bootstrap
+from flask_cache import Cache
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -19,6 +20,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 bootstrap = Bootstrap()
 toolbar = DebugToolbarExtension()
+cache = Cache(with_jinja2_ext=False)
 
 
 def init_ext(*, app: Flask):
@@ -30,3 +32,5 @@ def init_ext(*, app: Flask):
     migrate.init_app(app=app, db=db)
     bootstrap.init_app(app=app)
     toolbar.init_app(app=app)
+    cache.init_app(app=app, config={'CACHE_TYPE': 'redis'})
+

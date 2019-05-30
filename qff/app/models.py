@@ -5,7 +5,7 @@
 # @Site    : https://github.com/xiphodon
 # @File    : models.py
 # @Software: PyCharm
-from qff.App.ext import db
+from qff.app.ext import db
 
 
 class User(db.Model):
@@ -16,6 +16,7 @@ class User(db.Model):
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(20), unique=False, nullable=False)
     nikename = db.Column(db.String(20), unique=False, nullable=True)
+    create_datetime = db.Column(db.DateTime, unique=False, nullable=True)
     # 一对多关联，可关联出user所拥有的product列表
     # 级联查询属性，与表结构无关
     # 参数1：关联的model类名，参数2：反向引用参数（为Product模型加入user参数，懒加载），参数3：懒加载

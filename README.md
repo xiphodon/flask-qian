@@ -1,42 +1,40 @@
 # flask-qian
 <hr>
 
+
 ## Flask==1.0.2:
 ###flask web 框架
 
-## Flask-Script==2.0.6:
-###flask 脚本命令插件
+临时环境变量
+    set FLASK_APP=qff
+    set FLASK_ENV=development
 
-启动flask shell
-	
-	python manager.py shell
-启动flask 项目
+运行
+    flask run
 
-	python manager.py runserver -d -r -h 0.0.0.0 -p 5000
+shell 调试
+    flask shell
+
 
 ## Flask-Migrate==2.5.0:
 ###flask 数据模型迁移插件
 
-flask-script + flask-migrate
-manager 添加新命令
-
-    manager.add_command('db', MigrateCommand)
-
 初始化文件（只需要执行一次）
 
-    python manager.py db init
+    flask db init
 
 通过引用的数据模型更新到init生成的migrations文件中
 
-    python manager.py db migrate --message '日志信息'
+    flask db migrate --message '日志信息'
 
 更新数据模型到数据库
 
-    python manager.py db upgrade
+    flask db upgrade
 
 退回数据库
 
-    python manager py db downgrade
+    flask db downgrade
+
 
 ## Flask-SQLAlchemy==2.4.0:
 ###orm 映射插件
@@ -44,6 +42,7 @@ manager 添加新命令
 	app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost:3306/flask_db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 
 ## Flask-Session==0.3.1:
 ###flask session 插件
@@ -57,13 +56,19 @@ manager 添加新命令
     # app.config['SESSION_KEY_PREFIX'] = 'session:'  # 保存到session中的值的前缀
     # app.config['SESSION_REDIS'] = redis.Redis(host='127.0.0.1', port='6379', password='123123')  # 用于连接redis的配置
 
+
 ## Bootstrap-Flask==1.0.10:
 ###flask bootstrap 插件
+
 
 ## Flask-DebugToolbar==0.10.1:
 ###flask 调试工具条
 
+
 ## mysql-connector-python==8.0.16:
 ###mysql 驱动
 mysqlconnector替换pymysql，连接mysql 对中文支持更好
+
+## Flask-Cache==0.13.1:
+###flask 缓存
 
