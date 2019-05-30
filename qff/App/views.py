@@ -5,11 +5,8 @@
 # @Site    : https://github.com/xiphodon
 # @File    : views.py
 # @Software: PyCharm
-import sys
-from flask import Blueprint, Flask, request, render_template, current_app, abort, g
+from flask import Blueprint, Flask, request, render_template, current_app, abort, g, make_response, session, Response
 import random
-
-from sqlalchemy import and_, or_, not_
 
 from qff.App.ext import db
 from qff.App.models import User, Product, Customer, CompanyShop
@@ -305,3 +302,60 @@ def teardown_app_request_func(e):
     :return:
     """
     print('teardown_app_request', e)
+
+
+@bp.route('/404/')
+def find_error_page():
+    """
+    查询错误的页面
+    :return:
+    """
+    abort(404)
+    return '404页面'
+
+
+@bp.errorhandler(404)
+def catch_error_code(e):
+    """
+    捕获错误码404,重定向到指定页面
+    :return:
+    """
+    print(e)
+    return render_template('404.html')
+
+
+@bp.route('/setcookie/')
+def set_cookies():
+    """
+    设置cookie
+    :return:
+    """
+    response = make_response(render_template('cookie.html'))
+    response.set_cookie('user_name', 'tom_cookie')
+    # response.delete_cookie('user')
+
+    return response
+
+
+@bp.route('/setsession/')
+def set_session_var():
+    """
+    设置session变量
+    :return:
+    """
+    session['password'] = '123123'
+
+    session.clear()
+    return render_template('session.html')
+
+
+@bp.route('/getsession/')
+def get_session_var():
+    """
+    获取session变量
+    :return:
+    """
+    # password = session.get('password')
+    # print(password)
+
+    return render_template('session.html')
