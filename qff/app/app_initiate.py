@@ -5,21 +5,22 @@
 # @Site    : https://github.com/xiphodon
 # @File    : app_initiate.py
 # @Software: PyCharm
-from flask import Flask
 
-from qff.app.ext import cache
+from qff.app.ext.ext import cache
+from flask import abort, render_template
 
 
-def init_app_flow(*, app: Flask):
+def init_app_task(*, app):
     """
-    应用初始化流程
+    初始化应用任务
     :param app:
     :return:
     """
     clear_cache(app=app)
+    app_hook(app=app)
 
 
-def clear_cache(*, app: Flask):
+def clear_cache(*, app):
     """
     清除缓存
     :param app:
@@ -27,3 +28,19 @@ def clear_cache(*, app: Flask):
     """
     with app.app_context():
         cache.clear()
+
+
+def app_hook(*, app):
+    """
+    应用钩子
+    :return:
+    """
+
+    @app.errorhandler(404)
+    def catch_error_code(e):
+        """
+        捕获错误码404,重定向到指定页面
+        :return:
+        """
+        print(e)
+        return render_template('404.html')

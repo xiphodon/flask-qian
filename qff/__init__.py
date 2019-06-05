@@ -6,16 +6,17 @@
 # @File    : __init__.py
 # @Software: PyCharm
 
+import sys
+from pathlib import Path
+
 from flask import Flask
 
-from qff.app import settings
-from qff.app.app_initiate import init_app_flow
-from qff.app.ext import init_ext
-from qff.app.settings import envs
-from qff.app.views import init_bp
-
-from pathlib import Path
-import sys
+from qff.app.api.v1.shop_endpoint_module_1 import bp as api_v1_bp
+from qff.app.app_initiate import init_app_task
+from qff.app.ext.ext import init_ext
+from qff.app.views.views import bp as bp1
+from qff.settings import settings
+from qff.settings.settings import envs
 
 
 def create_app():
@@ -32,11 +33,28 @@ def create_app():
 
     app.config.from_object(envs.get('D'))
 
-    init_bp(app=app)
-    init_ext(app=app)
-    init_app_flow(app=app)
+    init_block(app=app)
 
     return app
 
 
+def init_block(*, app):
+    """
+    flask初始化块
+    :param app:
+    :return:
+    """
+    init_ext(app=app)
+    init_bp(app=app)
+    init_app_task(app=app)
+    # init_custom_task(app=app)
 
+
+def init_bp(*, app):
+    """
+    初始化蓝图
+    :param app:
+    :return:
+    """
+    app.register_blueprint(blueprint=bp1)
+    app.register_blueprint(blueprint=api_v1_bp)

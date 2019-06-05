@@ -5,7 +5,7 @@
 # @Site    : https://github.com/xiphodon
 # @File    : models.py
 # @Software: PyCharm
-from qff.app.ext import db
+from qff.app.ext.ext import db
 
 
 class User(db.Model):

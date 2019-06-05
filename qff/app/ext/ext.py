@@ -9,7 +9,6 @@
 """
 第三方库模块
 """
-from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_cache import Cache
 from flask_debugtoolbar import DebugToolbarExtension
@@ -23,7 +22,7 @@ toolbar = DebugToolbarExtension()
 cache = Cache(with_jinja2_ext=False)
 
 
-def init_ext(*, app: Flask):
+def init_ext(*, app):
     """
     初始化第三方库
     :return:

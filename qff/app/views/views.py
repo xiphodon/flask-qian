@@ -5,22 +5,14 @@
 # @Site    : https://github.com/xiphodon
 # @File    : views.py
 # @Software: PyCharm
-from flask import Blueprint, Flask, request, render_template, current_app, abort, g, make_response, session, Response
 import random
 
-from qff.app.ext import db, cache
-from qff.app.models import User, Product, Customer, CompanyShop
+from flask import Blueprint, Flask, request, render_template, abort, g, make_response, session, jsonify
+
+from qff.app.ext.ext import db, cache
+from qff.app.models.models import User, Product, Customer, CompanyShop
 
 bp = Blueprint('first_bp', __name__)
-
-
-def init_bp(*, app: Flask):
-    """
-    初始化 blueprint
-    :param app:
-    :return:
-    """
-    app.register_blueprint(blueprint=bp)
 
 
 @bp.route('/')
@@ -366,3 +358,16 @@ def get_session_var():
     # print(password)
 
     return render_template('session.html')
+
+
+@bp.route('/getjson/')
+def get_json():
+    """
+    获取json数据
+    :return:
+    """
+    data = {
+        'username': 'xipho',
+        'password': '111111'
+    }
+    return jsonify(data)
