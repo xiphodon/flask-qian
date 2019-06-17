@@ -14,12 +14,14 @@ from flask_cache import Cache
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+# from celery import Celery
 
 db = SQLAlchemy()
 migrate = Migrate()
 bootstrap = Bootstrap()
 toolbar = DebugToolbarExtension()
 cache = Cache(with_jinja2_ext=False)
+# celery_app = Celery('tasks', broker='redis://localhost:6379')
 
 
 def init_ext(*, app):

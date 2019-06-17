@@ -1,6 +1,17 @@
 # flask-qian
 <hr>
 
+## python -m venv venv
+初始化项目初始环境python -m venv venv(环境文件名)
+
+## requirements.txt
+生成requirements.txt文件
+
+    pip freeze > requirements.txt
+    
+安装requirements.txt依赖
+
+    pip install -r requirements.txt
 
 ## Flask==1.0.2:
 ###flask web 框架
